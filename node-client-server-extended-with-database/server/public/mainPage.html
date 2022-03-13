@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Database example</title>
+    <title>LernCards</title>
     <!-- The following is bootstrap: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -22,10 +22,10 @@
     <main role="main" class="container">
 
 
-        <h1>Database</h1>
+        <h1>LernCards</h1>
 
-        <h2>Values from 'table1'</h2>
-        <button type="button" onclick="loadDoc()" class="btn btn-primary">Manual refresh</button>
+        <h2>Abfrage</h2>
+        <button type="button" onclick="loadDoc()" class="btn btn-primary">Seite neu laden</button>
         <br><br>
         <div id="target">
             <!-- Here will be the database displayed -->
@@ -69,10 +69,10 @@
                         // Start the HTML table that should be displayed:
                         var txt = "<table class='table table-striped table-hover'>";
                         // add the table hader to it
-                        txt += "<tr><th scope='col'>Card ID</th><th scope='col'>Question</th><th scope='col'>Answer</th><th scope='col'>Created at (created_at)</th><th scope='col'>Action</th></tr>"
+                        txt += "<tr><th scope='col'>Karten Nr.</th><th scope='col'>Frage</th><th scope='col'>Antwort</th><th scope='col'>Nächste Frage</th></tr>"
                         // Go through each row and add it to the table
                         for (var x in row) {
-                            txt += "<tr><td>" + row[x].task_id + "</td><td>" + row[x].title + "</td><td>" + row[x].description + "</td><td>" + row[x].created_at + "</td><td> <button class='btn btn-success' onclick='checkAnswer(" + row[x].task_id + ")'>Check</button> </td></tr>";
+                            txt += "<tr><td>" + row[x].task_id + "</td><td>" + row[x].title + "</td><td>" + row[x].description + "</td><td> <button class='btn btn-success' onclick='checkAnswer(" + row[x].task_id + ")'>Check</button> </td></tr>";
                         }
                        // end of the table:
                         txt += "</table>"

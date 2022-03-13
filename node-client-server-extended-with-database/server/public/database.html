@@ -40,10 +40,10 @@
     <main role="main" class="container">
 
 
-        <h1>Database</h1>
+        <h1>LernCards</h1>
 
-        <h2>Values from 'table1'</h2>
-        <button type="button" onclick="loadDoc()" class="btn btn-primary">Manual refresh</button>
+        <h2>Kartensatz</h2>
+        <button type="button" onclick="loadDoc()" class="btn btn-primary">Seite neu laden</button>
         <br><br>
         <div id="target">
             <!-- Here will be the database displayed -->
@@ -86,14 +86,14 @@
                         var row = JSON.parse(this.responseText);
                         // Start the HTML table that should be displayed:
                         var txt = "<table class='table table-striped table-hover'>";
-                        // add the table hader to it
-                        txt += "<tr><th scope='col'>Card ID</th><th scope='col'>Question</th><th scope='col'>Answer</th><th scope='col'>Created at (created_at)</th><th scope='col'>Action</th><th scope='col'>Action2</th></tr>"
+                        // add the table header to it
+                        txt += "<tr><th scope='col'>Karten Nr.</th><th scope='col'>Frage</th><th scope='col'>Antwort</th><th scope='col'>Löschen</th><th scope='col'>Bearbeiten</th></tr>"
                         // Go through each row and add it to the table
                         for (var x in row) {
-                            txt += "<tr><td>" + row[x].task_id + "</td><td>" + row[x].title + "</td><td>" + row[x].description + "</td><td>" + row[x].created_at + "</td><td> <button class='btn btn-danger' onclick='deleteRow(" + row[x].task_id + ")'>DELETE</button> </td><td> <button class='btn btn-success' onclick='changeRow(" + row[x].task_id + ")'>Change</button> </td></tr>";
+                            txt += "<tr><td>" + row[x].task_id + "</td><td>" + row[x].title + "</td><td>" + row[x].description + "</td><td> <button class='btn btn-danger' onclick='deleteRow(" + row[x].task_id + ")'>Löschen</button> </td><td> <button class='btn btn-success' onclick='changeRow(" + row[x].task_id + ")'>Bearbeiten</button> </td></tr>";
                         }
                         // Now add a input row to add a new entry:
-                        txt += "<tr><td></td><td><input id='title' type='text' name='title' class='form-control' value='Question'></td><td><textarea id='description' type='text' name='description' class='answer' value='Answer'>Answer</textarea></td><td></td><td></td><td> <button class='btn btn-success' onclick='addRow()'>ADD</button> </td></tr>"
+                        txt += "<tr><td></td><td><input id='title' type='text' name='title' class='form-control' value='Frage'></td><td><textarea id='description' type='text' name='description' class='answer' value='Antwort'>Antwort</textarea></td><td></td><td><button class='btn btn-success' onclick='addRow()'>Hinzufügen</button> </td></tr>"
                         // end of the table:
                         txt += "</table>"
 
@@ -129,8 +129,43 @@
                 xhttp.send();
             }
 
+
             //TODO: Create a Function where you can change existing databases
-            function changeRow(){
+            function changeRow(id){
+                // construct an HTTP request
+                var xhr = new XMLHttpRequest();
+                // define the type POST to the url "../database" - we are in 'static/database'
+                xhr.open("POST", "../database", true);
+                // define that the content will be JSON (serialization)
+                xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                // prepare the structure of the message
+                var data_to_send = {
+                    title: "",          //inhalt einfügen
+                    description: ""     //inhalt einfügen
+                }
+                // Load the title and description from the Table on this page:
+                data_to_send.title = "test^123";
+                data_to_send.description = document.getElementById("description").value;
+                // send the collected data as JSON
+                xhr.send(JSON.stringify(data_to_send));
+
+                // Handle the answer from the server:
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Parse the JSON answer from the server:
+                        var answer = JSON.parse(this.responseText);
+                        // Show success message:
+                        showSuccessAlert('Successfully changed item with title:' + data_to_send.title + '; description: ' + data_to_send.description + ' ; Message from server: ' + this.responseText);
+                    } else if (this.readyState == 4 && this.status == 500) {
+                        // We got an error:
+                        var error = JSON.parse(this.responseText);
+                        console.log("ERROR: ", error);
+                        // Show error alert:
+                        showErrorAlert('ERROR on changing new item - message from server: ' + this.responseText);
+                    }
+                    // reload table
+                    loadDoc();
+                };
 
             }
 
