@@ -22,7 +22,7 @@
     <main role="main" class="container">
 
 
-        <h1>LernCards</h1>
+        <h1>LearnCards</h1>
 
         <h2>Abfrage</h2>
         <button type="button" onclick="loadDoc()" class="btn btn-primary">Seite neu laden</button>
@@ -36,9 +36,13 @@
             <!-- Here will be the alerts displayed -->
         </div>
 
-        <div class="alert alert-info" role="alert">
+        <div hidden class="alert alert-info" role="alert">
             More information here: <a
                 href="https://github.com/benjamin-salchow/verteilte-systeme-projekte/blob/master/node-client-server-extended-with-database/README.md">https://github.com/benjamin-salchow/verteilte-systeme-projekte/blob/master/node-client-server-extended-with-database/README.md</a>
+        </div>
+        <div>
+            <button class='btn btn-danger' onclick='beforeQuestion()'>Back</button>
+            <button class='btn btn-success' onclick='nextQuestion()'>Next</button>
         </div>
 
         <script>
@@ -53,7 +57,7 @@
                 document.getElementById("alert").innerHTML = '<div class="alert alert-success" role="alert">' + message + '</div>';
 
             }
-
+            let nr = 0;
 
             // The loadDoc()-function will load the table into the defined space
             function loadDoc() {
@@ -69,14 +73,14 @@
                         // Start the HTML table that should be displayed:
                         var txt = "<table class='table table-striped table-hover'>";
                         // add the table hader to it
-                        txt += "<tr><th scope='col'>Karten Nr.</th><th scope='col'>Frage</th><th scope='col'>Antwort</th><th scope='col'>Nächste Frage</th></tr>"
+                        txt += "<tr><th scope='col'>Karten Nr.</th><th scope='col'>Frage</th><th scope='col'>Antwort</th><th scope='col'>Überprüfen</th></tr>"
                         // Go through each row and add it to the table
-                        for (var x in row) {
-                            txt += "<tr><td>" + row[x].task_id + "</td><td>" + row[x].title + "</td><td>" + row[x].description + "</td><td> <button class='btn btn-success' onclick='checkAnswer(" + row[x].task_id + ")'>Check</button> </td></tr>";
-                        }
+
+                            txt += "<tr><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' hidden>" + row[nr].description + "</td><td> <button class='btn btn-success' onclick='checkAnswer()'>Check</button> </td> </tr>";
+                        
                        // end of the table:
                         txt += "</table>"
-
+                        
                         document.getElementById("target").innerHTML = txt;
                     }
                 };
@@ -85,9 +89,11 @@
                 xhttp.send();
             }
 
+            
+          
             //TODO: create an function which will show the Answer! 
-            function showAnswer(){
-
+            function checkAnswer(){
+                    document.getElementById('answer').hidden = false;
             }
 
             //create a function which will be used on an button, where users can click if their answer was right
@@ -100,9 +106,15 @@
 
             }
 
-            //TODO: create a function which will show the next Question
+            // function which will show the next Question --> Bug you can count more than there actually are 
             function nextQuestion(){
-
+                nr = nr + 1;
+                loadDoc();
+            }
+            //Function which shows the Question before --> Bug you can count more than there actually are 
+            function beforeQuestion(){
+                nr = nr - 1;
+                loadDoc();
             }
 
             // load the table at the start
