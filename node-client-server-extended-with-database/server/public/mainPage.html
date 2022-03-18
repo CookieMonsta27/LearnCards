@@ -27,6 +27,8 @@
         <h2>Abfrage</h2>
         <button type="button" onclick="loadDoc()" class="btn btn-primary">Seite neu laden</button>
         <br><br>
+        <p>Add new Questions <a href="../static/database.html">here</a>!</p>
+        <br><br>
         <div id="target">
             <!-- Here will be the database displayed -->
             Loading please wait...
@@ -75,12 +77,12 @@
                         // add the table hader to it
                         txt += "<tr><th scope='col'>Karten Nr.</th><th scope='col'>Frage</th><th scope='col'>Antwort</th><th scope='col'>Überprüfen</th></tr>"
                         // Go through each row and add it to the table
-
-                            txt += "<tr><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' hidden>" + row[nr].description + "</td><td> <button class='btn btn-success' onclick='checkAnswer()'>Check</button> </td> </tr>";
+                       
+                            txt += "<tr><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' hidden >" + row[nr].description + "</td><td> <button id='checkButton' class='btn btn-success' onclick='checkAnswer()'>Check</button> </td> </tr>";
                         
                        // end of the table:
                         txt += "</table>"
-                        
+                      
                         document.getElementById("target").innerHTML = txt;
                     }
                 };
@@ -93,7 +95,7 @@
           
             //TODO: create an function which will show the Answer! 
             function checkAnswer(){
-                    document.getElementById('answer').hidden = false;
+                    document.getElementById('answer').hidden = false; 
             }
 
             //create a function which will be used on an button, where users can click if their answer was right
