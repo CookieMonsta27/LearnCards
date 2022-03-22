@@ -155,8 +155,8 @@ app.delete('/database/:id', (req, res) => {
     });
 });
 
-// POST path for database
-app.post('/database', (req, res) => {
+// POST path for database new row
+app.post('/addrow', (req, res) => {
     // This will add a new row. So we're getting a JSON from the webbrowser which needs to be checked for correctness and later
     // it will be added to the database with a query.
     if (typeof req.body !== "undefined" && typeof req.body.title !== "undefined" && typeof req.body.description !== "undefined") {
@@ -168,6 +168,40 @@ app.post('/database', (req, res) => {
         // Actual executing the query. Please keep in mind that this is for learning and education.
         // In real production environment, this has to be secure for SQL injection!
         connection.query("INSERT INTO `table1` (`task_id`, `title`, `description`, `created_at`) VALUES (NULL, '" + title + "', '" + description + "', current_timestamp());", function (error, results, fields) {
+            if (error) {
+                // we got an errror - inform the client
+                console.error(error); // <- log error in server
+                res.status(500).json(error); // <- send to client
+            } else {
+                // Everything is fine with the query
+                console.log('Success answer: ', results); // <- log results in console
+                // INFO: Here can be some checks of modification of the result
+                res.status(200).json(results); // <- send it to client
+            }
+        });
+    }
+    else {
+        // There is nobody with a title nor description
+        console.error("Client send no correct data!")
+        // Set HTTP Status -> 400 is client error -> and send message
+        res.status(400).json({ message: 'This function requries a body with "title" and "description' });
+    }
+});
+
+// POST path for database row-change
+app.post('/databasechange', (req, res) => {
+    // This will change a row. So we're getting a JSON from the webbrowser which needs to be checked for correctness and later
+    // it will be changed to the database with a query.
+    if (typeof req.body !== "undefined" && typeof req.body.title !== "undefined" && typeof req.body.description !== "undefined") {
+        // The content looks good, so move on
+        // Get the content to local variables:
+        var id = req.body.id;
+        var title = req.body.title;
+        var description = req.body.description;
+        console.log("Client send database update request with 'id': " + id + " ; 'title': " + title + " ; description: " + description); // <- log to server
+        // Actual executing the query.
+        // In real production environment, this has to be secure for SQL injection!
+        connection.query("UPDATE `table1` SET `title` = '" + title + "' , `description` = '" + description + "' WHERE `task_id` = " + id + ";", function (error, results) {
             if (error) {
                 // we got an errror - inform the client
                 console.error(error); // <- log error in server
