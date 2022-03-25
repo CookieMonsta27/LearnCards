@@ -62,6 +62,8 @@
             let nr = 0;
             var notDone =true;
             
+            let NrFalse = 0;
+            let NrTrue = 0;
  
             // The loadDoc()-function will load the table into the defined space
             function loadDoc() {   
@@ -103,7 +105,7 @@
             }
 
             function done(){
-                var doneText = "<h3>You finished the set and got /TODO/ right and /TODO/ false</h3>";
+                var doneText = "<h3>You finished the set and got "+ NrTrue +" right and "+ NrFalse + " false</h3>";
                 document.getElementById("target").innerHTML = doneText;
 
                 document.getElementById('rightButton').style.display = 'none'; 
@@ -127,9 +129,11 @@
             function questionRight(){
                 if (nr == nrMax){
                     notDone = false;
+                    NrTrue++;
                   done();
                 }else{
                      nr = nr + 1;
+                     NrTrue++;
                     loadDoc();
                 }
             }
@@ -138,9 +142,11 @@
             function questionWrong(){
                 if (nr == nrMax){
                     notDone = false;
+                    NrFalse++;
                     done();
                 }else{
                      nr = nr + 1;
+                     NrFalse++;
                     loadDoc();
                 }
             }
