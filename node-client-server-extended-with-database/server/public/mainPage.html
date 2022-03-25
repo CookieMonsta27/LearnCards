@@ -43,10 +43,6 @@
                 href="https://github.com/benjamin-salchow/verteilte-systeme-projekte/blob/master/node-client-server-extended-with-database/README.md">https://github.com/benjamin-salchow/verteilte-systeme-projekte/blob/master/node-client-server-extended-with-database/README.md</a>
         </div>
         <div style="display: flex; flex-direction: row;">
-            <button id="backButton" class='btn btn-danger' style="margin-right: 5px;" onclick='beforeQuestion()'>Back</button>
-            <button id="nextButton" class='btn btn-success' onclick='nextQuestion()'>Next</button>
-        </div>
-        <div style="display: flex; flex-direction: row;">
             <button id='rightButton' class='btn btn-success' style='display: none; margin-right: 5px;' onclick='questionRight()'>Richtig</button> 
             <button id='wrongButton' class='btn btn-danger' style='display: none;' onclick='questionWrong()'>Falsch</button>
         </div>
@@ -69,7 +65,8 @@
  
             // The loadDoc()-function will load the table into the defined space
             function loadDoc() {   
-              
+                document.getElementById('rightButton').style.display = 'none'; 
+                    document.getElementById('wrongButton').style.display = 'none'; 
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -94,16 +91,18 @@
                         
                        // end of the table:
                         txt += "</table>"
-                
                        
                         document.getElementById("target").innerHTML = txt;
-                        document.getElementById('nextButton').style.display = 'block';
-                    document.getElementById('backButton').style.display = 'block';
-
-                    document.getElementById('rightButton').style.display = 'none'; 
-                    document.getElementById('wrongButton').style.display = 'none'; 
                     }      
-                }else{
+                }
+                };
+                // the "../" is required because we're in "static" folder!
+                xhttp.open("GET", "../database", true);
+                xhttp.send(); 
+           
+            }
+
+            function done(){
                 var doneText = "<h3>You finished the set and got /TODO/ right and /TODO/ false</h3>";
                 document.getElementById("target").innerHTML = doneText;
 
@@ -112,23 +111,11 @@
 
                 document.getElementById('nextButton').style.display = 'none';
                 document.getElementById('backButton').style.display = 'none';
-            } 
-            
-                };
-                // the "../" is required because we're in "static" folder!
-                xhttp.open("GET", "../database", true);
-                xhttp.send(); 
-           
             }
-
-            
           
             //TODO: create an function which will show the Answer! 
             function checkAnswer(){
                     document.getElementById('answer').style.display = 'block'; 
-
-                    document.getElementById('nextButton').style.display = 'none';
-                    document.getElementById('backButton').style.display = 'none';
 
                     document.getElementById('rightButton').style.display = 'block'; 
                     document.getElementById('wrongButton').style.display = 'block'; 
@@ -140,7 +127,7 @@
             function questionRight(){
                 if (nr == nrMax){
                     notDone = false;
-                  loadDoc();
+                  done();
                 }else{
                      nr = nr + 1;
                     loadDoc();
@@ -151,37 +138,13 @@
             function questionWrong(){
                 if (nr == nrMax){
                     notDone = false;
-                  loadDoc();
+                    done();
                 }else{
                      nr = nr + 1;
                     loadDoc();
                 }
             }
-
-            // function which will show the next Question --> Bug: you can count more than there actually are 
-            function nextQuestion(){
-                if (nr == nrMax){
-                    nr = 0;
-                    loadDoc();
-                }else{
-                     nr = nr + 1;
-                    loadDoc();
-                }
-                
-                   
-            }
-            //Function which shows the Question before
-            function beforeQuestion(){
-                if(nr == 0){
-                    nr = nrMax;
-                    loadDoc();   
-                    //does nothing if you are on the first question
-                }else{
-                    nr = nr - 1;
-                    loadDoc();   
-                }
-            }
-
+           
             // load the table at the start
             loadDoc();
         </script>
