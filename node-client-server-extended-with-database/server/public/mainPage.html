@@ -68,7 +68,7 @@
             // The loadDoc()-function will load the table into the defined space
             function loadDoc() {   
                 document.getElementById('rightButton').style.display = 'none'; 
-                    document.getElementById('wrongButton').style.display = 'none'; 
+                document.getElementById('wrongButton').style.display = 'none'; 
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -78,7 +78,7 @@
 
                         // Parse the JSON answer from the server:
                         var row = JSON.parse(this.responseText);  
-                        if(notDone){
+                      //  if(notDone){
                         // Start the HTML table that should be displayed:
                         var txt = "<table class='table table-striped table-hover'>";
                         // add the table hader to it
@@ -88,14 +88,13 @@
                             nrMax = x;
                        }
                       
-                    
                             txt += "<tr><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' style='display: none;'  >" + row[nr].description + "</td><td> <button id='checkButton' class='btn btn-success' onclick='checkAnswer()'>Check</button> </td></tr>";
                         
                        // end of the table:
                         txt += "</table>"
                        
                         document.getElementById("target").innerHTML = txt;
-                    }      
+                  //  }      
                 }
                 };
                 // the "../" is required because we're in "static" folder!
@@ -103,9 +102,13 @@
                 xhttp.send(); 
            
             }
+            //TODO: Create Function which loads the False ones in a Table
+            function loadFalse(){
+
+            }
 
             function done(){
-                var doneText = "<h3>You finished the set and got "+ NrTrue +" right and "+ NrFalse + " false</h3>";
+                var doneText = "<h3>You finished the set and got "+ NrTrue +" right and "+ NrFalse + " false! <br> You can click on the Button below to retake the ones you did wrong!</h3> <br> <br>  <button class='btn btn-danger' onclick='loadFalse()'>Retake false ones</button>";
                 document.getElementById("target").innerHTML = doneText;
 
                 document.getElementById('rightButton').style.display = 'none'; 
