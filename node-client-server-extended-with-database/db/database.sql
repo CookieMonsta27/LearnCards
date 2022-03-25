@@ -2,14 +2,14 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: meinecooledb
+-- Host: lerncarddb
 -- Generation Time: Apr 09, 2020 at 12:19 PM
 -- Server version: 10.4.12-MariaDB-1:10.4.12+maria~bionic
 -- PHP Version: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+01:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `table1`
+-- Table structure for table `cardstack`
 --
 
-CREATE TABLE `table1` (
+CREATE TABLE `cardstack` (
   `task_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
@@ -35,10 +35,10 @@ CREATE TABLE `table1` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `table1`
+-- Dumping data for table `cardstack`
 --
 
-INSERT INTO `table1` (`task_id`, `title`, `description`, `created_at`) VALUES
+INSERT INTO `cardstack` (`task_id`, `title`, `description`, `created_at`) VALUES
 (1, 'Super titel', 'langer text', '2020-04-09 12:18:07'),
 (2, 'Anderer Titel', 'Super Text', '2020-04-09 12:18:43'),
 (3, 'Anderer Titel2', 'noch mehr text', '2020-04-09 12:18:57');
@@ -48,9 +48,9 @@ INSERT INTO `table1` (`task_id`, `title`, `description`, `created_at`) VALUES
 --
 
 --
--- Indexes for table `table1`
+-- Indexes for table `cardstack`
 --
-ALTER TABLE `table1`
+ALTER TABLE `cardstack`
   ADD PRIMARY KEY (`task_id`);
 
 --
@@ -58,9 +58,9 @@ ALTER TABLE `table1`
 --
 
 --
--- AUTO_INCREMENT for table `table1`
+-- AUTO_INCREMENT for table `cardstack`
 --
-ALTER TABLE `table1`
+ALTER TABLE `cardstack`
   MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 

@@ -39,13 +39,13 @@ Dabei werden folgende Zugriffspunkte vom `server.js` verwendet:
 
 Zugriffspunkte:
  * GET http://localhost:8080/database
-   * Gibt die komplette `table1` als JSON-Antwort zum Client.
+   * Gibt die komplette `cardstack` als JSON-Antwort zum Client.
  * DELETE http://localhost:8080/database/`id`
-   * Löscht die Reihe aus der `table1` mit der angegebenen `id`.
+   * Löscht die Reihe aus der `cardstack` mit der angegebenen `id`.
  * POST http://localhost:8080/database
    * Das übergebene JSON-Objekt an diese URL, welches folgende Struktur haben muss:
    * `{ title: "", description: ""}`
-   * wird zur `table1` hinzugefügt. Dabei werden die `task_id` sowie die `created_at` automatisch von der Datenbank ausgefüllt (siehe query im Sourcecode).
+   * wird zur `cardstack` hinzugefügt. Dabei werden die `task_id` sowie die `created_at` automatisch von der Datenbank ausgefüllt (siehe query im Sourcecode).
 
 Zugriffspunkte vom `node-client-server-extended` sind enthalten, aber in dieser Readme beschrieben: [- node-client-server-extended Beispiel ->](../node-client-server-extended/README.md)
 
@@ -118,33 +118,33 @@ Der Output sieht wie folgt aus:
 ```sh
 Successfully built f34216b40a71
 Successfully tagged node-client-server-extended-with-database_server:latest
-Creating node-client-server-extended-with-database_meinecooledb_1 ... done
+Creating node-client-server-extended-with-database_lerncarddb_1 ... done
 Creating node-client-server-extended-with-database_phpmyadmin_1   ... done
 Creating node-client-server-extended-with-database_server_1       ... done
-Attaching to node-client-server-extended-with-database_phpmyadmin_1, node-client-server-extended-with-database_meinecooledb_1, node-client-server-extended-with-database_server_1
-meinecooledb_1  | 2020-04-10 13:38:44+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 1:10.4.12+maria~bionic started.
+Attaching to node-client-server-extended-with-database_phpmyadmin_1, node-client-server-extended-with-database_lerncarddb_1, node-client-server-extended-with-database_server_1
+lerncarddb_1  | 2020-04-10 13:38:44+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 1:10.4.12+maria~bionic started.
 phpmyadmin_1    | phpMyAdmin not found in /var/www/html - copying now...
-meinecooledb_1  | 2020-04-10 13:38:44+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
-meinecooledb_1  | 2020-04-10 13:38:44+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 1:10.4.12+maria~bionic started.
+lerncarddb_1  | 2020-04-10 13:38:44+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+lerncarddb_1  | 2020-04-10 13:38:44+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 1:10.4.12+maria~bionic started.
 phpmyadmin_1    | Complete! phpMyAdmin has been successfully copied to /var/www/html
 phpmyadmin_1    | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 192.168.64.3. Set the 'ServerName' directive globally to suppress this message
 phpmyadmin_1    | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 192.168.64.3. Set the 'ServerName' directive globally to suppress this message
 phpmyadmin_1    | [Fri Apr 10 13:38:44.905627 2020] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.38 (Debian) PHP/7.4.4 configured -- resuming normal operations
 phpmyadmin_1    | [Fri Apr 10 13:38:44.905683 2020] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
-meinecooledb_1  | 2020-04-10 13:38:45+00:00 [Note] [Entrypoint]: Initializing database files
+lerncarddb_1  | 2020-04-10 13:38:45+00:00 [Note] [Entrypoint]: Initializing database files
 {...}
-meinecooledb_1  | 2020-04-10 13:38:47+00:00 [Note] [Entrypoint]: Waiting for server startup
+lerncarddb_1  | 2020-04-10 13:38:47+00:00 [Note] [Entrypoint]: Waiting for server startup
 {...}
-meinecooledb_1  | 2020-04-10 13:38:59+00:00 [Note] [Entrypoint]: /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/database.sql
+lerncarddb_1  | 2020-04-10 13:38:59+00:00 [Note] [Entrypoint]: /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/database.sql
 {...}
-meinecooledb_1  | 2020-04-10 13:39:02 0 [Note] mysqld: ready for connections.
-meinecooledb_1  | Version: '10.4.12-MariaDB-1:10.4.12+maria~bionic'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  mariadb.org binary distribution
+lerncarddb_1  | 2020-04-10 13:39:02 0 [Note] mysqld: ready for connections.
+lerncarddb_1  | Version: '10.4.12-MariaDB-1:10.4.12+maria~bionic'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  mariadb.org binary distribution
 server_1        | Conecting to database...
 server_1        | Running on http://0.0.0.0:8080
 server_1        | Database connected and works
 ```
 
-Dabei wird auch im Log ausgegeben, wenn die `database.sql` geladen wird: `meinecooledb_1  | 2020-04-10 13:38:59+00:00 [Note] [Entrypoint]: /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/database.sql`.
+Dabei wird auch im Log ausgegeben, wenn die `database.sql` geladen wird: `lerncarddb_1  | 2020-04-10 13:38:59+00:00 [Note] [Entrypoint]: /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/database.sql`.
 
 Um alle Container zu stoppen, können diese mittels [strg] + [c] beendet werden.
 
@@ -155,11 +155,11 @@ Der Output sieht wie folgt aus:
 Gracefully stopping... (press Ctrl+C again to force)
 Stopping node-client-server-extended-with-database_server_1       ...
 Stopping node-client-server-extended-with-database_phpmyadmin_1   ...
-Stopping node-client-server-extended-with-database_meinecooledb_1 ...
+Stopping node-client-server-extended-with-database_lerncarddb_1 ...
 # wenn nochmal [strg] + [c] gedrückt wird:
 Stopping node-client-server-extended-with-database_server_1       ... done
 Stopping node-client-server-extended-with-database_phpmyadmin_1   ... done
-Stopping node-client-server-extended-with-database_meinecooledb_1 ... done
+Stopping node-client-server-extended-with-database_lerncarddb_1 ... done
 ```
 
 **Wichtig:** Der Parameter `--build` sorgt dafür, dass bei jedem Aufruf von `docker-compose up` alle Container neu gebaut werden, damit alle Änderungen im `server.js` sowie im Datenbankschema `database.sql` in den jeweiligen Container integriert werden.

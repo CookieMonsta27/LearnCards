@@ -21,7 +21,7 @@ console.log("Conecting to database...");
 // In this current demo, this is done by the "database.sql" file which is stored in the "db"-container (./db/).
 // Alternative you could use the mariadb basic sample and do the following steps here:
 /*
-connection.query("CREATE TABLE IF NOT EXISTS table1 (task_id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL, description TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)  ENGINE=INNODB;", function (error, results, fields) {
+connection.query("CREATE TABLE IF NOT EXISTS cardstack (task_id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL, description TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)  ENGINE=INNODB;", function (error, results, fields) {
     if (error) throw error;
     console.log('Answer: ', results);
 });
@@ -117,9 +117,9 @@ app.get('/button2', (req, res) => {
 // ###################### DATABASE PART ######################
 // GET path for database
 app.get('/database', (req, res) => {
-    console.log("Request to load all entries from table1");
+    console.log("Request to load all entries from cardstack");
     // Prepare the get query
-    connection.query("SELECT * FROM `table1`;", function (error, results, fields) {
+    connection.query("SELECT * FROM `cardstack`;", function (error, results, fields) {
         if (error) {
             // we got an errror - inform the client
             console.error(error); // <- log error in server
@@ -141,7 +141,7 @@ app.delete('/database/:id', (req, res) => {
 
     // Actual executing the query to delete it from the server
     // Please keep in mind to secure this for SQL injection!
-    connection.query("DELETE FROM `table1` WHERE `table1`.`task_id` = " + id + ";", function (error, results, fields) {
+    connection.query("DELETE FROM `cardstack` WHERE `cardstack`.`task_id` = " + id + ";", function (error, results, fields) {
         if (error) {
             // we got an errror - inform the client
             console.error(error); // <- log error in server
@@ -167,7 +167,7 @@ app.post('/addrow', (req, res) => {
         console.log("Client send database insert request with 'title': " + title + " ; description: " + description); // <- log to server
         // Actual executing the query. Please keep in mind that this is for learning and education.
         // In real production environment, this has to be secure for SQL injection!
-        connection.query("INSERT INTO `table1` (`task_id`, `title`, `description`, `created_at`) VALUES (NULL, '" + title + "', '" + description + "', current_timestamp());", function (error, results, fields) {
+        connection.query("INSERT INTO `cardstack` (`task_id`, `title`, `description`, `created_at`) VALUES (NULL, '" + title + "', '" + description + "', current_timestamp());", function (error, results, fields) {
             if (error) {
                 // we got an errror - inform the client
                 console.error(error); // <- log error in server
@@ -201,7 +201,7 @@ app.post('/databasechange', (req, res) => {
         console.log("Client send database update request with 'id': " + id + " ; 'title': " + title + " ; description: " + description); // <- log to server
         // Actual executing the query.
         // In real production environment, this has to be secure for SQL injection!
-        connection.query("UPDATE `table1` SET `title` = '" + title + "' , `description` = '" + description + "' WHERE `task_id` = " + id + ";", function (error, results) {
+        connection.query("UPDATE `cardstack` SET `title` = '" + title + "' , `description` = '" + description + "' WHERE `task_id` = " + id + ";", function (error, results) {
             if (error) {
                 // we got an errror - inform the client
                 console.error(error); // <- log error in server
