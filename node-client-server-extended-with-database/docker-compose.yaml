@@ -7,37 +7,62 @@ services:
       - "8080:8080"
     restart: always
     environment:
-      MYSQL_DATABASE: falsedb1
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
+      MYSQL_DATABASE: cardstackdb
+      MYSQL_USER: cardstackuser
+      MYSQL_PASSWORD: cardstackpass
       MYSQL_HOSTNAME: lerncarddb
+      
+      MYSQL_DATABASE2: falsestackdb
+      MYSQL_USER2: falsestackuser
+      MYSQL_PASSWORD2: falsestackpass 
+      MYSQL_HOSTNAME2: falsedb
+
+      MYSQL_DATABASE3: rightstackdb
+      MYSQL_USER3: rightstackuser
+      MYSQL_PASSWORD3: rightstackpass
+      MYSQL_HOSTNAME3: rightdb
+      
     links:
       - lerncarddb
+      - falsedb
+      - rightdb
     depends_on:
       - lerncarddb
       - falsedb
+      - rightdb
   
   lerncarddb:
     # Use of a modified datbase in 'db'-folder.
     # See README.md for more information.
-    build: db
+    build: db1
     restart: always
     environment:
-      MYSQL_DATABASE: exampledb
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
+      MYSQL_DATABASE: cardstackdb
+      MYSQL_USER: cardstackuser
+      MYSQL_PASSWORD: cardstackpass
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
   
   falsedb:
     # Use of a modified datbase in 'db'-folder.
     # See README.md for more information.
-    build: db
+    build: db2 # ordner von 2. DB Bank
     restart: always
     environment:
-      MYSQL_DATABASE: falsedb1
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_DATABASE2: falsestackdb
+      MYSQL_USER2: falsestackuser
+      MYSQL_PASSWORD2: falsestackpass
+      MYSQL_RANDOM_ROOT_PASSWORD: '2'
+  
+  rightdb:
+    # Use of a modified datbase in 'db'-folder.
+    # See README.md for more information.
+    build: db3 # ordner von 3. DB Bank
+    restart: always
+    environment:
+      MYSQL_DATABASE3: rightstackdb
+      MYSQL_USER3: rightstackuser
+      MYSQL_PASSWORD3: rightstackpass
+      MYSQL_RANDOM_ROOT_PASSWORD: '3'
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

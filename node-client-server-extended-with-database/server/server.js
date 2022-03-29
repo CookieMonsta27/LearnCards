@@ -5,7 +5,7 @@ const express = require('express');
 // Database
 const mysql = require('mysql');
 // Database connection info - used from environment variables
-var dbInfo = {
+var db1Info = {
     connectionLimit : 10,
     host: process.env.MYSQL_HOSTNAME,
     user: process.env.MYSQL_USER,
@@ -13,34 +13,53 @@ var dbInfo = {
     database: process.env.MYSQL_DATABASE
 };
 
-var connection = mysql.createPool(dbInfo);
-console.log("Conecting to database...");
-// connection.connect(); <- connect not required in connection pool
+var db2Info = {
+    connectionLimit : 10,
+    host: process.env.MYSQL_HOSTNAME2,
+    user: process.env.MYSQL_USER2,
+    password: process.env.MYSQL_PASSWORD2,
+    database: process.env.MYSQL_DATABASE2
+};
 
-// SQL Database init.
-// In this current demo, this is done by the "database.sql" file which is stored in the "db"-container (./db/).
-// Alternative you could use the mariadb basic sample and do the following steps here:
-/*
-connection.query("CREATE TABLE IF NOT EXISTS cardstack (task_id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL, description TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)  ENGINE=INNODB;", function (error, results, fields) {
-    if (error) throw error;
-    console.log('Answer: ', results);
-});
-*/
-// See readme.md for more information about that.
+var db3Info = {
+    connectionLimit : 10,
+    host: process.env.MYSQL_HOSTNAME3,
+    user: process.env.MYSQL_USER3,
+    password: process.env.MYSQL_PASSWORD3,
+    database: process.env.MYSQL_DATABASE3
+};
+
+function databaseConnection(dbInfo){
+    var connection = mysql.createPool(dbInfo);
+    console.log("Conecting to database...");
+    return connection;
+};
+
+var connection1 = databaseConnection(db1Info);
+var connection2 = databaseConnection(db2Info);
+var connection3 = databaseConnection(db3Info);
+
 
 // Check the connection
-connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-    if (error) throw error; // <- this will throw the error and exit normally
-    // check the solution - should be 2
-    if (results[0].solution == 2) {
-        // everything is fine with the database
-        console.log("Database connected and works");
-    } else {
-        // connection is not fine - please check
-        console.error("There is something wrong with your database connection! Please check");
-        process.exit(5); // <- exit application with error code e.g. 5
-    }
-});
+function checkConnection(connection){
+    connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+        if (error) throw error; // <- this will throw the error and exit normally
+        // check the solution - should be 2
+        if (results[0].solution == 2) {
+            // everything is fine with the database
+            console.log("Database connected and works");
+        } else {
+            // connection is not fine - please check
+            console.error("There is something wrong with your database connection! Please check");
+            process.exit(5); // <- exit application with error code e.g. 5
+        }
+    });
+};
+
+checkConnection(connection1);
+checkConnection(connection2);
+checkConnection(connection3);
+    
 
 
 // Constants

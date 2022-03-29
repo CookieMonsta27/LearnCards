@@ -18,46 +18,33 @@ SET time_zone = "+01:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `falsedb1`
+-- Database: `rightstackdb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cardstack`
+-- Table structure for table `card_right`
 --
 
-CREATE TABLE `falsecards` (
+CREATE TABLE `card_right` (
   `task_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `cardstack`
---
-
-
 
 --
--- Indexes for dumped tables
+-- Indexes for table `card_right`
 --
-
---
--- Indexes for table `cardstack`
---
-ALTER TABLE `falsecards`
+ALTER TABLE `card_right`
   ADD PRIMARY KEY (`task_id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT for table `card_right`
 --
-
---
--- AUTO_INCREMENT for table `cardstack`
---
-ALTER TABLE `falsecards`
+ALTER TABLE `card_right`
   MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
