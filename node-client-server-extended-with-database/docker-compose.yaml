@@ -71,5 +71,7 @@ services:
       - 8085:80
     environment:
       PMA_HOST: lerncarddb
+      PMA_HOST2: falsedb
+      PMA_HOST3: rightdb
   
       
