@@ -24,3 +24,9 @@
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
+.main_hr{
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 100%;
+}
+

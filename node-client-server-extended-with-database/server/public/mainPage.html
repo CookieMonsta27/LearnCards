@@ -1,10 +1,15 @@
 <html>
 
+<style>
+</style>
+
 <head>
     <title>LearnCards</title>
     <!-- The following is bootstrap: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -23,11 +28,11 @@
 
 
         <h1>LearnCards</h1>
-
+        <hr class="main_hr">
         <h2>Abfrage</h2>
-        <button type="button" onclick="loadDoc()" class="btn btn-primary">Seite neu laden</button>
+      <!-- <button type="button" onclick="loadDoc()" class="btn btn-primary">Seite neu laden</button> -->
         <br><br>
-        <p>Add new Questions <a href="../static/database.html">here</a>!</p>
+        <p>Du kannst neue Fragen <a href="../static/database.html">hier</a> dazufügen!</p>
         <br><br>
         <div id="target">
             <!-- Here will be the database displayed -->
@@ -61,12 +66,14 @@
             }
             let nr = 0;
             var notDone =true;
+            let rightNr = 0;
+            let falseNr = 0;
             
  
             // The loadDoc()-function will load the table into the defined space
             function loadDoc() {   
                 document.getElementById('rightButton').style.display = 'none'; 
-                    document.getElementById('wrongButton').style.display = 'none'; 
+                document.getElementById('wrongButton').style.display = 'none'; 
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -80,14 +87,13 @@
                         // Start the HTML table that should be displayed:
                         var txt = "<table class='table table-striped table-hover'>";
                         // add the table hader to it
-                        txt += "<tr><th scope='col'>Karten Nr.</th><th scope='col'>Frage</th><th scope='col'>Antwort</th></tr>"
+                        txt += "<tr><th scope='col'>Karten Nr.</th><th scope='col'>Frage</th><th scope='col'>Antwort</th><th></th></tr>"
                         // Go through each row and add it to the table
                        for (var x in row){
                             nrMax = x;
                        }
                       
-                    
-                            txt += "<tr><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' style='display: none;'  >" + row[nr].description + "</td><td> <button id='checkButton' class='btn btn-success' onclick='checkAnswer()'>Check</button> </td></tr>";
+                            txt += "<tr><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' style='display: none;'  >" + row[nr].description + "</td><td> <button id='checkButton' class='btn btn-success' onclick='checkAnswer()'>Überprüfen</button> </td></tr>";
                         
                        // end of the table:
                         txt += "</table>"
@@ -103,14 +109,11 @@
             }
 
             function done(){
-                var doneText = "<h3>You finished the set and got /TODO/ right and /TODO/ false</h3>";
+                var doneText = "<h3>Du hast das Set fertig und hast " + rightNr + " richtig und " + falseNr + " falsch</h3>";
                 document.getElementById("target").innerHTML = doneText;
 
                 document.getElementById('rightButton').style.display = 'none'; 
                 document.getElementById('wrongButton').style.display = 'none'; 
-
-                document.getElementById('nextButton').style.display = 'none';
-                document.getElementById('backButton').style.display = 'none';
             }
           
             //TODO: create an function which will show the Answer! 
@@ -127,9 +130,11 @@
             function questionRight(){
                 if (nr == nrMax){
                     notDone = false;
-                  done();
+                    rightNr++;
+                    done();
                 }else{
                      nr = nr + 1;
+                     rightNr++;
                     loadDoc();
                 }
             }
@@ -138,9 +143,11 @@
             function questionWrong(){
                 if (nr == nrMax){
                     notDone = false;
+                    falseNr++;
                     done();
                 }else{
                      nr = nr + 1;
+                     falseNr++;
                     loadDoc();
                 }
             }

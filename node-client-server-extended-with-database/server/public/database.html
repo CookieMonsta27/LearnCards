@@ -1,8 +1,9 @@
 <html>
 
 <head>
-    <title>LernCards</title>
+    <title>LearnCards</title>
     <!-- The following is bootstrap: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
+    <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -40,10 +41,12 @@
     <main role="main" class="container">
 
 
-        <h1>LearnCard</h1>
-
+        <h1>LearnCards</h1>
+        <hr class="main_hr">
         <h2>Kartensatz</h2>
-        <button type="button" onclick="loadDoc()" class="btn btn-primary">Seite neu laden</button>
+        <!-- <button type="button" onclick="loadDoc()" class="btn btn-primary">Seite neu laden</button>-->
+        <br><br>
+        <p>Du kannst deine Fragen <a href="../static/mainPage.html">hier</a> abfragen!</p>
         <br><br>
         <div id="target">
             <!-- Here will be the database displayed -->
@@ -54,10 +57,10 @@
             <!-- Here will be the alerts displayed -->
         </div>
 
-        <div class="alert alert-info" role="alert">
+        <!-- <div class="alert alert-info" role="alert">
             More information here: <a
                 href="https://github.com/benjamin-salchow/verteilte-systeme-projekte/blob/master/node-client-server-extended-with-database/README.md">https://github.com/benjamin-salchow/verteilte-systeme-projekte/blob/master/node-client-server-extended-with-database/README.md</a>
-        </div>
+        </div>-->
 
         <script>
 
@@ -113,13 +116,13 @@
                         // Parse the JSON answer from the server:
                         var answer = JSON.parse(this.responseText);
                         // Show success message:
-                        showSuccessAlert('Successfully deleted item:' + id + '; Message from server: ' + this.responseText);
+                      //  showSuccessAlert('Successfully deleted item:' + id + '; Message from server: ' + this.responseText);
                     } else if (this.readyState == 4 && this.status == 500) {
                         // We got an error:
                         var error = JSON.parse(this.responseText);
                         console.log("ERROR: ", error);
                         // Show error alert:
-                        showErrorAlert('ERROR on deleted item:' + id + '; Message from server: ' + this.responseText);
+                       // showErrorAlert('ERROR on deleted item:' + id + '; Message from server: ' + this.responseText);
                     }
                     // reload table
                     loadDoc();
@@ -157,13 +160,13 @@
                         // Parse the JSON answer from the server:
                         var answer = JSON.parse(this.responseText);
                         // Show success message:
-                        showSuccessAlert('Successfully changed item with id: ' + data_to_send.id + '; title:' + data_to_send.title + '; description: ' + data_to_send.description + ' ; Message from server: ' + this.responseText);
+                       // showSuccessAlert('Successfully changed item with id: ' + data_to_send.id + '; title:' + data_to_send.title + '; description: ' + data_to_send.description + ' ; Message from server: ' + this.responseText);
                     } else if (this.readyState == 4 && this.status == 500) {
                         // We got an error:
                         var error = JSON.parse(this.responseText);
                         console.log("ERROR: ", error);
                         // Show error alert:
-                        showErrorAlert('ERROR on changing item - message from server: ' + this.responseText);
+                       // showErrorAlert('ERROR on changing item - message from server: ' + this.responseText);
                     }
                     // reload table
                     loadDoc();
@@ -196,13 +199,13 @@
                         // Parse the JSON answer from the server:
                         var answer = JSON.parse(this.responseText);
                         // Show success message:
-                        showSuccessAlert('Successfully added item with title:' + data_to_send.title + '; description: ' + data_to_send.description + ' ; Message from server: ' + this.responseText);
+                       // showSuccessAlert('Successfully added item with title:' + data_to_send.title + '; description: ' + data_to_send.description + ' ; Message from server: ' + this.responseText);
                     } else if (this.readyState == 4 && this.status == 500) {
                         // We got an error:
                         var error = JSON.parse(this.responseText);
                         console.log("ERROR: ", error);
                         // Show error alert:
-                        showErrorAlert('ERROR on adding new item - message from server: ' + this.responseText);
+                        //showErrorAlert('ERROR on adding new item - message from server: ' + this.responseText);
                     }
                     // reload table
                     loadDoc();
