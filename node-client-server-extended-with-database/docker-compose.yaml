@@ -48,9 +48,9 @@ services:
     build: db2 # ordner von 2. DB Bank
     restart: always
     environment:
-      MYSQL_DATABASE2: falsestackdb
-      MYSQL_USER2: falsestackuser
-      MYSQL_PASSWORD2: falsestackpass
+      MYSQL_DATABASE: falsestackdb
+      MYSQL_USER: falsestackuser
+      MYSQL_PASSWORD: falsestackpass
       MYSQL_RANDOM_ROOT_PASSWORD: '2'
   
   rightdb:
@@ -59,9 +59,9 @@ services:
     build: db3 # ordner von 3. DB Bank
     restart: always
     environment:
-      MYSQL_DATABASE3: rightstackdb
-      MYSQL_USER3: rightstackuser
-      MYSQL_PASSWORD3: rightstackpass
+      MYSQL_DATABASE: rightstackdb
+      MYSQL_USER: rightstackuser
+      MYSQL_PASSWORD: rightstackpass
       MYSQL_RANDOM_ROOT_PASSWORD: '3'
   
   phpmyadmin:
@@ -71,7 +71,22 @@ services:
       - 8085:80
     environment:
       PMA_HOST: lerncarddb
-      PMA_HOST2: falsedb
-      PMA_HOST3: rightdb
+  
+  phpmyadmin2:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - 8086:80
+    environment:
+      PMA_HOST: rightdb
+  
+  phpmyadmin3:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - 8087:80
+    environment:
+      PMA_HOST: falsedb
+
   
       
