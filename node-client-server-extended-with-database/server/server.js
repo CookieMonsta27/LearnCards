@@ -155,7 +155,7 @@ app.get('/database1', (req, res) => {
 app.get('/database2', (req, res) => {
     console.log("Request to load all entries from cardstack");
     // Prepare the get query
-    connection2.query("SELECT * FROM `cardstack`;", function (error, results, fields) {
+    connection2.query("SELECT * FROM `card_false`;", function (error, results, fields) {
         if (error) {
             // we got an errror - inform the client
             console.error(error); // <- log error in server
@@ -236,7 +236,7 @@ app.post('/addfalse', (req, res) => {
         console.log("Client send database insert request with 'title': " + title + " ; description: " + description); // <- log to server
         // Actual executing the query. Please keep in mind that this is for learning and education.
         // In real production environment, this has to be secure for SQL injection!
-        connection2.query("INSERT INTO `cardstack` (`task_id`, `title`, `description`, `created_at`) VALUES (NULL, '" + title + "', '" + description + "', current_timestamp());", function (error, results, fields) {
+        connection2.query("INSERT INTO `card_false` (`task_id`, `title`, `description`, `created_at`) VALUES (NULL, '" + title + "', '" + description + "', current_timestamp());", function (error, results, fields) {
             if (error) {
                 // we got an errror - inform the client
                 console.error(error); // <- log error in server
