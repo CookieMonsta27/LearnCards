@@ -103,11 +103,48 @@
                 }
                 };
                 // the "../" is required because we're in "static" folder!
-                xhttp.open("GET", "../database", true);
+                xhttp.open("GET", "../database1", true);
                 xhttp.send(); 
            
             }
 
+// The loadDoc()-function will load the table into the defined space
+function loadFalse() {   
+                document.getElementById('rightButton').style.display = 'none'; 
+                document.getElementById('wrongButton').style.display = 'none'; 
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // debugger; // <- you can use the debugger for better developing in the browser
+                        // console.log(this.responseText); // this can also help durring debugging in the console of the browser
+                        // console.log(JSON.parse(this.responseText)); // even function output like JSON is visible in the browser console
+
+                        // Parse the JSON answer from the server:
+                        var row = JSON.parse(this.responseText);  
+                        if(notDone){
+                        // Start the HTML table that should be displayed:
+                        var txt = "<table class='table table-striped table-hover' style='pointer-events: none'>";
+                        // add the table hader to it
+                        txt += "<tr><th scope='col'>Karten Nr.</th><th scope='col'>Frage</th><th scope='col'>Antwort</th><th></th></tr>"
+                        // Go through each row and add it to the table
+                       for (var x in row){
+                            nrMax = x;
+                       }
+                      
+                            txt += "<tr style='background-color: white'><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' style='display: none;'  >" + row[nr].description + "</td><td> <button id='checkButton' class='btn btn-success' style='pointer-events: initial' onclick='checkAnswer()'>Überprüfen</button> </td></tr>";
+                        
+                       // end of the table:
+                        txt += "</table>"
+                       
+                        document.getElementById("target").innerHTML = txt;
+                    }      
+                }
+                };
+                // the "../" is required because we're in "static" folder!
+                xhttp.open("GET", "../database2", true);
+                xhttp.send(); 
+           
+            }
             function done(){
                 var doneText = "<h3>Du hast das Set fertig und hast " + rightNr + " richtig und " + falseNr + " falsch</h3>";
                 document.getElementById("target").innerHTML = doneText;
