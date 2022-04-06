@@ -228,15 +228,16 @@ app.post('/addrow', (req, res) => {
 app.post('/addfalse', (req, res) => {
     // This will add a new row. So we're getting a JSON from the webbrowser which needs to be checked for correctness and later
     // it will be added to the database with a query.
-    if (typeof req.body !== "undefined" && typeof req.body.title !== "undefined" && typeof req.body.description !== "undefined") {
+    if (typeof req.body !== "undefined" && typeof req.body.task_id !== "undefined" && typeof req.body.title !== "undefined" && typeof req.body.description !== "undefined") {
         // The content looks good, so move on
         // Get the content to local variables:
+        var task_id = req.body.task_id;
         var title = req.body.title;
         var description = req.body.description;
-        console.log("Client send database insert request with 'title': " + title + " ; description: " + description); // <- log to server
+        console.log("Client send database insert request with id:" + task_id + "title: " + title + " ; description: " + description); // <- log to server
         // Actual executing the query. Please keep in mind that this is for learning and education.
         // In real production environment, this has to be secure for SQL injection!
-        connection2.query("INSERT INTO `card_false` (`task_id`, `title`, `description`, `created_at`) VALUES (NULL, '" + title + "', '" + description + "', current_timestamp());", function (error, results, fields) {
+        connection2.query("INSERT INTO `card_false` (`task_id`, `title`, `description`, `created_at`) VALUES (" + task_id + ", '" + title + "', '" + description + "', current_timestamp());", function (error, results, fields) {
             if (error) {
                 // we got an errror - inform the client
                 console.error(error); // <- log error in server
