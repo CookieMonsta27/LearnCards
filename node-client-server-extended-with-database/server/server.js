@@ -107,30 +107,7 @@ app.post('/client_post', (req, res) => {
     }
 });
 
-// ###################### BUTTON EXAMPLE ######################
-// POST path for Button 1
-app.post('/button1_name', (req, res) => {
-    // Load the name from the formular. This is the ID of the input:
-    const name = req.body.name
-    // Print it out in console:
-    console.log("Client send the following name: " + name + " | Button1")
-    // Send JSON message back - this could be also HTML instead.
-    res.status(200).json({ message: 'I got your message - Name is: ' + name });
-    // More information here: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/forms
-})
 
-// GET path for Button 2
-app.get('/button2', (req, res) => {
-    // This will generate a random number and send it back:
-    const random_number = Math.random();
-    // Print it out in console:
-    console.log("Send the following random number to the client: " + random_number + " | Button2")
-    // Send it to the client / webbrowser:
-    res.send("Antwort: " + random_number);
-    // Instead of plain TXT - the answer could be a JSON
-    // More information here: https://www.w3schools.com/xml/ajax_intro.asp
-});
-// ###################### BUTTON EXAMPLE END ######################
 
 
 // ###################### DATABASE PART ######################
@@ -153,7 +130,7 @@ app.get('/database1', (req, res) => {
 });
 
 app.get('/database2', (req, res) => {
-    console.log("Request to load all entries from cardstack");
+    console.log("Request to load all entries from falsestack");
     // Prepare the get query
     connection2.query("SELECT * FROM `card_false`;", function (error, results, fields) {
         if (error) {
@@ -162,7 +139,7 @@ app.get('/database2', (req, res) => {
             res.status(500).json(error); // <- send to client
         } else {
             // we got no error - send it to the client
-            console.log('Success answer from DB: ', results); // <- log results in console
+            console.log('Success answer from DB2: ', results); // <- log results in console
             // INFO: Here could be some code to modify the result
             res.status(200).json(results); // <- send it to client
         }
