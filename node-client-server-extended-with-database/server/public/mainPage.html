@@ -1,4 +1,4 @@
-<html>
+<html lang="de">
 <head>
     <title>LearnCards</title>
     <!-- The following is bootstrap: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
@@ -90,11 +90,15 @@
                        }
                       
                             txt += "<tr style='background-color: white'><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' style='display: none;'  >" + row[nr].description + "</td><td> <button id='checkButton' class='btn btn-success' style='pointer-events: initial' onclick='checkAnswer()'>Überprüfen</button> </td></tr>";
-                           
+
+                            let Tid = row[nr].task_id;
+                            let Title = row[nr].title;
+                            let Description = row[nr].description;
+
                        // end of the table:
                         txt += "</table>"
                        
-                       var btn = "<button id='rightButton' class='btn btn-success' style='display: none; margin-right: 5px;' onclick='questionRight()'>Richtig</button> <button id='wrongButton' class='btn btn-danger' style='display: none;' onclick='questionWrong(" + row[nr].task_id + row[nr].title + row[nr].description +")'>Falsch</button>"
+                       let btn = "<button id='rightButton' class='btn btn-success' style='display: none; margin-right: 5px;' onclick='questionRight()'>Richtig</button> <button id='wrongButton' class='btn btn-danger' style='display: none;' onclick='questionWrong("+ Tid +", "+ Title +", "+ Description +")'>Falsch</button>"
 
                         document.getElementById("target").innerHTML = txt;
                         document.getElementById("buttons").innerHTML = btn;
@@ -196,9 +200,9 @@
             }
 
             //create a function which will be used on an button, where users can click if their answer was wrong [If time save the false ones and ask them latzer again]
-            function questionWrong(task_id, title, description){
-                
-                console.log("questinwrong" + task_id + title)
+            function questionWrong(Tid, Title, Description){
+            
+                console.log("questionwrong", Tid, Title, Description);
                 // construct an HTTP request
                 var xhr = new XMLHttpRequest();
                 // define the type POST to the url "../database" - we are in 'static/database'
@@ -208,13 +212,13 @@
                 // prepare the structure of the message
                 var data_to_send = {
                     task_id: "",
-                    title: "",
-                    description: ""
+                   title: "",
+                   description: "",
                 }
                 // Load the id, title and description from the table on this page:
-                data_to_send.task_id = task_id;
-                data_to_send.title = title;
-                data_to_send.description = description;
+                data_to_send.task_id = Tid;
+                data_to_send.title = Title;
+                data_to_send.description = Description;
                 // send the collected data as JSON
                 xhr.send(JSON.stringify(data_to_send));
 
@@ -223,6 +227,7 @@
                     if (this.readyState == 4 && this.status == 200) {
                         // Parse the JSON answer from the server:
                         var answer = JSON.parse(this.responseText);
+                        console.log("workes", answer);
                         // Show success message:
                        // showSuccessAlert('Successfully added item with title:' + data_to_send.title + '; description: ' + data_to_send.description + ' ; Message from server: ' + this.responseText);
                     } else if (this.readyState == 4 && this.status == 500) {

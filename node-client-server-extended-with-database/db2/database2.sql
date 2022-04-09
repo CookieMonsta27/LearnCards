@@ -34,7 +34,8 @@ CREATE TABLE `card_false` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
+INSERT INTO `card_false` (`task_id`, `title`, `description`, `created_at`) VALUES
+(1, 'Super titel', 'langer text', '2020-04-09 12:18:07');
 --
 -- Indexes for table `card_false`
 --
