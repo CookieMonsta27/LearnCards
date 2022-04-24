@@ -1,8 +1,4 @@
-<html>
-
-<style>
-</style>
-
+<html lang="de">
 <head>
     <title>LearnCards</title>
     <!-- The following is bootstrap: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
@@ -47,9 +43,8 @@
             More information here: <a
                 href="https://github.com/benjamin-salchow/verteilte-systeme-projekte/blob/master/node-client-server-extended-with-database/README.md">https://github.com/benjamin-salchow/verteilte-systeme-projekte/blob/master/node-client-server-extended-with-database/README.md</a>
         </div>
-        <div style="display: flex; flex-direction: row;">
-            <button id='rightButton' class='btn btn-success' style='display: none; margin-right: 5px;' onclick='questionRight()'>Richtig</button> 
-            <button id='wrongButton' class='btn btn-danger' style='display: none;' onclick='questionWrong()'>Falsch</button>
+        <div id="buttons" style="display: flex; flex-direction: row;">
+        
         </div>
 
         <script>
@@ -66,14 +61,15 @@
             }
             let nr = 0;
             var notDone =true;
+            var isloadDoc = true;            
             let rightNr = 0;
             let falseNr = 0;
             
  
             // The loadDoc()-function will load the table into the defined space
             function loadDoc() {   
-                document.getElementById('rightButton').style.display = 'none'; 
-                document.getElementById('wrongButton').style.display = 'none'; 
+                console.log("loadDoc");
+                
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -94,11 +90,21 @@
                        }
                       
                             txt += "<tr style='background-color: white'><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' style='display: none;'  >" + row[nr].description + "</td><td> <button id='checkButton' class='btn btn-success' style='pointer-events: initial' onclick='checkAnswer()'>Überprüfen</button> </td></tr>";
-                        
+
+                            const myCardobj = {id:1, title:"", description:""};
+                            myCardobj.id = row[nr].task_id;
+                            myCardobj.title = row[nr].title;
+                            myCardobj.description = row[nr].description;
+                            
+                            const myCardstr = JSON.stringify(myCardobj);
+
                        // end of the table:
                         txt += "</table>"
                        
+                       let btn = "<button id='rightButton' class='btn btn-success' style='display: none; margin-right: 5px;' onclick='questionRight(" + myCardstr + ")'>Richtig</button> <button id='wrongButton' class='btn btn-danger' style='display: none;' onclick='questionWrong("+ myCardstr +")'>Falsch</button>"
+
                         document.getElementById("target").innerHTML = txt;
+                        document.getElementById("buttons").innerHTML = btn;
                     }      
                 }
                 };
@@ -108,8 +114,8 @@
            
             }
 
-// The loadDoc()-function will load the table into the defined space
-function loadFalse() {   
+            function loadFalse() {
+       
                 document.getElementById('rightButton').style.display = 'none'; 
                 document.getElementById('wrongButton').style.display = 'none'; 
                 var xhttp = new XMLHttpRequest();
@@ -136,7 +142,10 @@ function loadFalse() {
                        // end of the table:
                         txt += "</table>"
                        
+                        //let btn = "<button id='rightButton' class='btn btn-success' style='display: none; margin-right: 5px;' onclick='questionRight(" + myCardstr + ")'>Richtig</button> <button id='wrongButton' class='btn btn-danger' style='display: none;' onclick='questionWrong("+ myCardstr +")'>Falsch</button>"
+
                         document.getElementById("target").innerHTML = txt;
+                        //document.getElementById("buttons").innerHTML = btn;
                     }      
                 }
                 };
@@ -145,8 +154,51 @@ function loadFalse() {
                 xhttp.send(); 
            
             }
+
+            function loadRight() {
+                
+                document.getElementById('rightButton').style.display = 'none'; 
+                document.getElementById('wrongButton').style.display = 'none'; 
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // debugger; // <- you can use the debugger for better developing in the browser
+                        // console.log(this.responseText); // this can also help durring debugging in the console of the browser
+                        // console.log(JSON.parse(this.responseText)); // even function output like JSON is visible in the browser console
+
+                        // Parse the JSON answer from the server:
+                        var row = JSON.parse(this.responseText);  
+                        if(notDone){
+                        // Start the HTML table that should be displayed:
+                        var txt = "<table class='table table-striped table-hover' style='pointer-events: none'>";
+                        // add the table hader to it
+                        txt += "<tr><th scope='col'>Karten Nr.</th><th scope='col'>Frage</th><th scope='col'>Antwort</th><th></th></tr>"
+                        // Go through each row and add it to the table
+                       for (var x in row){
+                            nrMax = x;
+                       }
+                      
+                            txt += "<tr style='background-color: white'><td>" + row[nr].task_id + "</td><td>" + row[nr].title + "</td><td id='answer' style='display: none;'  >" + row[nr].description + "</td><td> <button id='checkButton' class='btn btn-success' style='pointer-events: initial' onclick='checkAnswer()'>Überprüfen</button> </td></tr>";
+                        
+                       // end of the table:
+                        txt += "</table>"
+                       
+                        //let btn = "<button id='rightButton' class='btn btn-success' style='display: none; margin-right: 5px;' onclick='questionRight(" + myCardstr + ")'>Richtig</button> <button id='wrongButton' class='btn btn-danger' style='display: none;' onclick='questionWrong("+ myCardstr +")'>Falsch</button>"
+
+                        document.getElementById("target").innerHTML = txt;
+                        //document.getElementById("buttons").innerHTML = btn;
+                    }      
+                }
+                };
+            
+                // the "../" is required because we're in "static" folder!
+                xhttp.open("GET", "../database3", true);
+                xhttp.send(); 
+            
+            }
+
             function done(){
-                var doneText = "<h3>Du hast das Set fertig und hast " + rightNr + " richtig und " + falseNr + " falsch</h3>";
+                var doneText = "<h3>Du hast das Set fertig und hast " + rightNr + " richtig und " + falseNr + " falsch</h3> <br> <button  class='btn btn-success' onclick='load1()'>Falsche lernen</button> <button  class='btn btn-success' onclick='load2()'>Richtige lernen</button> <button  class='btn btn-success' onclick='load3()'>Alles lernen</button>";
                 document.getElementById("target").innerHTML = doneText;
 
                 document.getElementById('rightButton').style.display = 'none'; 
@@ -163,8 +215,93 @@ function loadFalse() {
                     document.getElementById('checkButton').style.display = 'none';
             }
 
+            function load1(){
+                resetVar();
+                loadFalse();
+            }
+            function load2(){
+                resetVar();
+                loadRight();
+            }
+            function load3(){
+                resetVar3();
+                loadDoc();
+            }
+
+            function resetVar() {
+                nr = 0;
+                isloadDoc = false;  
+                notDone = true;
+                rightNr = 0;
+                falseNr = 0;
+            }
+
+            function resetVar3() {
+                nr = 0;
+                isloadDoc = true;  
+                notDone = true;
+                rightNr = 0;
+                falseNr = 0;
+            }
+
             //create a function which will be used on an button, where users can click if their answer was right
-            function questionRight(){
+            function questionRight(myJSON){
+                console.log(myJSON);
+
+                // construct an HTTP request
+                var xhr = new XMLHttpRequest();
+                // define the type POST to the url "../database" - we are in 'static/database'
+                xhr.open("POST", "../addright", true);
+                // define that the content will be JSON (serialization)
+                xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                // prepare the structure of the message
+                var data_to_send = {
+                    task_id: "",
+                   title: "",
+                   description: "",
+                }
+                // Load the id, title and description from the table on this page:
+                data_to_send.task_id = myJSON.id;
+                data_to_send.title = myJSON.title;
+                data_to_send.description = myJSON.description;
+                // send the collected data as JSON
+                xhr.send(JSON.stringify(data_to_send));
+
+                // Handle the answer from the server:
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Parse the JSON answer from the server:
+                        var answer = JSON.parse(this.responseText);
+                        console.log("workes", answer);
+                        // Show success message:
+                       // showSuccessAlert('Successfully added item with title:' + data_to_send.title + '; description: ' + data_to_send.description + ' ; Message from server: ' + this.responseText);
+                    } else if (this.readyState == 4 && this.status == 500) {
+                        // We got an error:
+                        var error = JSON.parse(this.responseText);
+                        console.log("ERROR: ", error);
+                        // Show error alert:
+                        //showErrorAlert('ERROR on adding new item - message from server: ' + this.responseText);
+                    }
+                };
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Parse the JSON answer from the server:
+                        var answer = JSON.parse(this.responseText);
+                        // Show success message:
+                      //  showSuccessAlert('Successfully deleted item:' + id + '; Message from server: ' + this.responseText);
+                    } else if (this.readyState == 4 && this.status == 500) {
+                        // We got an error:
+                        var error = JSON.parse(this.responseText);
+                        console.log("ERROR: ", error);
+                        // Show error alert:
+                       // showErrorAlert('ERROR on deleted item:' + id + '; Message from server: ' + this.responseText);
+                    }
+                };
+                xhttp.open("DELETE", "../databasefalse/" + myJSON.id, true);
+                xhttp.send();
+
                 if (nr == nrMax){
                     notDone = false;
                     rightNr++;
@@ -172,12 +309,73 @@ function loadFalse() {
                 }else{
                      nr = nr + 1;
                      rightNr++;
-                    loadDoc();
+                    if (isloadDoc){
+                       loadDoc();  
+                    }else{
+                        loadRight();
+                    }
+                   
                 }
             }
 
             //create a function which will be used on an button, where users can click if their answer was wrong [If time save the false ones and ask them latzer again]
-            function questionWrong(){
+            function questionWrong(myJSON){
+                console.log(myJSON);
+
+                // construct an HTTP request
+                var xhr = new XMLHttpRequest();
+                // define the type POST to the url "../database" - we are in 'static/database'
+                xhr.open("POST", "../addfalse", true);
+                // define that the content will be JSON (serialization)
+                xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                // prepare the structure of the message
+                var data_to_send = {
+                    task_id: "",
+                   title: "",
+                   description: "",
+                }
+                // Load the id, title and description from the table on this page:
+                data_to_send.task_id = myJSON.id;
+                data_to_send.title = myJSON.title;
+                data_to_send.description = myJSON.description;
+                // send the collected data as JSON
+                xhr.send(JSON.stringify(data_to_send));
+
+                // Handle the answer from the server:
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Parse the JSON answer from the server:
+                        var answer = JSON.parse(this.responseText);
+                        console.log("workes", answer);
+                        // Show success message:
+                       // showSuccessAlert('Successfully added item with title:' + data_to_send.title + '; description: ' + data_to_send.description + ' ; Message from server: ' + this.responseText);
+                    } else if (this.readyState == 4 && this.status == 500) {
+                        // We got an error:
+                        var error = JSON.parse(this.responseText);
+                        console.log("ERROR: ", error);
+                        // Show error alert:
+                        //showErrorAlert('ERROR on adding new item - message from server: ' + this.responseText);
+                    }
+                };
+                
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Parse the JSON answer from the server:
+                        var answer = JSON.parse(this.responseText);
+                        // Show success message:
+                      //  showSuccessAlert('Successfully deleted item:' + id + '; Message from server: ' + this.responseText);
+                    } else if (this.readyState == 4 && this.status == 500) {
+                        // We got an error:
+                        var error = JSON.parse(this.responseText);
+                        console.log("ERROR: ", error);
+                        // Show error alert:
+                       // showErrorAlert('ERROR on deleted item:' + id + '; Message from server: ' + this.responseText);
+                    }
+                };
+                xhttp.open("DELETE", "../databaseright/" + myJSON.id, true);
+                xhttp.send();
+
                 if (nr == nrMax){
                     notDone = false;
                     falseNr++;
@@ -185,7 +383,12 @@ function loadFalse() {
                 }else{
                      nr = nr + 1;
                      falseNr++;
-                    loadDoc();
+                     if(isloadDoc){
+                          loadDoc();
+                     } else{
+                         loadFalse();
+                     }
+                   
                 }
             }
            
@@ -195,5 +398,4 @@ function loadFalse() {
 
     </main><!-- /.container -->
 </body>
-
 </html>

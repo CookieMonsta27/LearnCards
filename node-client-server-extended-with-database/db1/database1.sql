@@ -39,9 +39,9 @@ CREATE TABLE `cardstack` (
 --
 
 INSERT INTO `cardstack` (`task_id`, `title`, `description`, `created_at`) VALUES
-(1, 'Super titel', 'langer text', '2020-04-09 12:18:07'),
-(2, 'Anderer Titel', 'Super Text', '2020-04-09 12:18:43'),
-(3, 'Anderer Titel2', 'noch mehr text', '2020-04-09 12:18:57');
+(1, 'Wie hieß der erste DE Kaiser?', 'Wilhelm I.', '2022-04-23 12:18:07'),
+(2, 'Wie hieß der erste DE Bundeskanzler', 'Konrad Adenauer', '2022-04-23 12:18:43'),
+(3, 'Wie hieß der erste DE im All', 'Sigmund Werner Paul Jähn', '2022-04-23 12:18:57');
 
 --
 -- Indexes for dumped tables
